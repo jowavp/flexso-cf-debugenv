@@ -42,20 +42,20 @@ async function debugenv(settings) {
     // write file to destination
     console.log(`-------------- Writing files to debug on tenant ${consumer} --------------`);
     for (let destDir of settings.destination) {
-        fs_1.default.writeFile(`${destDir}default-services.json`, defaultServices, 'utf8', (err) => {
+        fs_1.default.writeFile(`${destDir}/default-services.json`, defaultServices, 'utf8', (err) => {
             if (err) {
                 console.log(`Error writing file: ${err}`);
             }
             else {
-                console.log(`File ${destDir}default-services.json is written successfully!`);
+                console.log(`File ${destDir}/default-services.json is written successfully!`);
             }
         });
-        fs_1.default.writeFile(`${destDir}default-env.json`, defaultEnv, 'utf8', (err) => {
+        fs_1.default.writeFile(`${destDir}/default-env.json`, defaultEnv, 'utf8', (err) => {
             if (err) {
                 console.log(`Error writing file: ${err}`);
             }
             else {
-                console.log(`File ${destDir}default-env.json is written successfully!`);
+                console.log(`File ${destDir}/default-env.json is written successfully!`);
             }
         });
     }
