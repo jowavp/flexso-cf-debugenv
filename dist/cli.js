@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const command_line_args_1 = __importDefault(require("command-line-args"));
 const init_1 = require("./init");
 const fs_1 = __importDefault(require("fs"));
-const environmentDir = './.env/provider';
+const environmentDir = './.env/provider/';
 const inquirer_1 = __importDefault(require("inquirer"));
 const debugenv_1 = __importDefault(require("./debugenv"));
 inquirer_1.default.registerPrompt('filePath', require('inquirer-file-path'));
@@ -46,7 +46,7 @@ async function start() {
         await init_1.init(appName, environmentDir);
     }
     else {
-        const settingsStr = fs_1.default.readFileSync(`${environmentDir}settings.json`, 'utf8');
+        const settingsStr = fs_1.default.readFileSync(`${environmentDir}/settings.json`, 'utf8');
         const settings = JSON.parse(settingsStr);
         // Question developer to get the correct default-*.json files
         await debugenv_1.default(settings);

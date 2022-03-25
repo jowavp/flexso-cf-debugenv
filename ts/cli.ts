@@ -3,7 +3,7 @@ import commandLineArgs from 'command-line-args';
 import { init } from './init';
 import fs from 'fs';
 
-const environmentDir = './.env/provider'
+const environmentDir = './.env/provider/'
 
 import inquirer from 'inquirer';
 import debugenv, { IDebugEnvSettings } from './debugenv';
@@ -53,7 +53,7 @@ async function start() {
         await init(appName, environmentDir);
 
     } else {
-        const settingsStr = fs.readFileSync(`${environmentDir}settings.json`, 'utf8');
+        const settingsStr = fs.readFileSync(`${environmentDir}/settings.json`, 'utf8');
         const settings: IDebugEnvSettings = JSON.parse(settingsStr);
 
         // Question developer to get the correct default-*.json files
