@@ -1,11 +1,19 @@
 {
   "name": "flexso-cf-debugenv",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Try to automate the configuration of a local development environment to test applications deployed on SAP BTP Cloud Foundry",
   "main": "dist/cli.js",
+  "files": [
+    "dist/**/*"
+  ],
+  "types": "./dist/cli.d.ts",
   "scripts": {
     "start": "node ./dist/cli.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jowavp/flexso-cf-debugenv.git"
   },
   "author": "Joachim Van Praet",
   "license": "ISC",
