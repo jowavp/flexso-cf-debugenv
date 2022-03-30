@@ -10,7 +10,6 @@ const fs_1 = __importDefault(require("fs"));
 const environmentDir = './.env/provider/';
 const inquirer_1 = __importDefault(require("inquirer"));
 const debugenv_1 = __importDefault(require("./debugenv"));
-inquirer_1.default.registerPrompt('filePath', require('inquirer-file-path'));
 inquirer_1.default.registerPrompt('directory', require('inquirer-directory'));
 const optionDefinitions = [
     { name: 'init', alias: 'i', type: Boolean },

@@ -29,15 +29,18 @@ async function debugenv(settings) {
     // set to JSON
     const template = JSON.parse(fileData);
     const saasCredentials = template.VCAP_SERVICES?.["saas-registry"]?.[0].credentials;
-    const consumerNames = await consumerTenants_1.getSubscribedTenantNames(saasCredentials);
-    const consumer = (await inquirer_1.default.prompt([
-        {
-            type: 'list',
-            name: 'consumer',
-            message: 'Select the consumer',
-            choices: consumerNames
-        },
-    ])).consumer;
+    let consumer = provider;
+    if (saasCredentials) {
+        const consumerNames = await consumerTenants_1.getSubscribedTenantNames(saasCredentials);
+        consumer = (await inquirer_1.default.prompt([
+            {
+                type: 'list',
+                name: 'consumer',
+                message: 'Select the consumer',
+                choices: consumerNames
+            },
+        ])).consumer;
+    }
     const { defaultServices, defaultEnv } = convertDefaultServicesJson(template, consumer);
     // write file to destination
     console.log(`-------------- Writing files to debug on tenant ${consumer} --------------`);

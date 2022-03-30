@@ -209,6 +209,15 @@ async function getCFApiUrl() {
         (resolve, reject) => {
             const apiURLCmd = spawn('cf', ['api']);
             apiURLCmd.stdout.on('data', (data) => {
+
+                const regex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gm
+                const result = regex.exec(data.toString());
+
+                if (result) {
+                    resolve(result[0]);
+                }
+                reject(`Unable to read the api url.`);
+                /*
                 const value = Object.fromEntries(
                     (<string>(data.toString())).split('\n').filter(line => line).map(line => {
                         const [key, ...rest] = line.split(':')
@@ -219,6 +228,7 @@ async function getCFApiUrl() {
 
                 const baseURL: string = value['API endpoint'];
                 resolve(baseURL)
+                */
             });
 
             apiURLCmd.stderr.on('error', (data) => {

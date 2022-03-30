@@ -1,6 +1,6 @@
 {
   "name": "flexso-cf-debugenv",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "Try to automate the configuration of a local development environment to test applications deployed on SAP BTP Cloud Foundry",
   "main": "dist/cli.js",
   "files": [

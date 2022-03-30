@@ -8,7 +8,6 @@ const environmentDir = './.env/provider/'
 import inquirer from 'inquirer';
 import debugenv, { IDebugEnvSettings } from './debugenv';
 
-inquirer.registerPrompt('filePath', require('inquirer-file-path'));
 inquirer.registerPrompt('directory', require('inquirer-directory'));
 
 const optionDefinitions = [

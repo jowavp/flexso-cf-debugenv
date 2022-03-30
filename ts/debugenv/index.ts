@@ -31,16 +31,19 @@ export default async function debugenv(settings: IDebugEnvSettings) {
     const template = JSON.parse(fileData);
     const saasCredentials = template.VCAP_SERVICES?.["saas-registry"]?.[0].credentials;
 
-    const consumerNames = await getSubscribedTenantNames(saasCredentials);
+    let consumer = provider
+    if (saasCredentials) {
+        const consumerNames = await getSubscribedTenantNames(saasCredentials);
 
-    const consumer = (await inquirer.prompt([
-        {
-            type: 'list',
-            name: 'consumer',
-            message: 'Select the consumer',
-            choices: consumerNames
-        },
-    ])).consumer;
+        consumer = (await inquirer.prompt([
+            {
+                type: 'list',
+                name: 'consumer',
+                message: 'Select the consumer',
+                choices: consumerNames
+            },
+        ])).consumer;
+    }
 
     const { defaultServices, defaultEnv } = convertDefaultServicesJson(template, consumer)
 
