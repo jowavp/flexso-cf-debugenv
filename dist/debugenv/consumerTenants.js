@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSubscribedTenantNames = void 0;
+exports.getSubscribedTenantNames = getSubscribedTenantNames;
 const axios_1 = __importDefault(require("axios"));
 async function getSubscribedTenantNames(epaasService) {
     try {
@@ -33,4 +33,3 @@ async function getSubscribedTenantNames(epaasService) {
         throw e;
     }
 }
-exports.getSubscribedTenantNames = getSubscribedTenantNames;

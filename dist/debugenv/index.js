@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = debugenv;
 const inquirer_1 = __importDefault(require("inquirer"));
 const fs_1 = __importDefault(require("fs"));
 const consumerTenants_1 = require("./consumerTenants");
@@ -29,9 +30,10 @@ async function debugenv(settings) {
     // set to JSON
     const template = JSON.parse(fileData);
     const saasCredentials = template.VCAP_SERVICES?.["saas-registry"]?.[0].credentials;
+    const isSaas = !!saasCredentials;
     let consumer = provider;
     if (saasCredentials) {
-        const consumerNames = await consumerTenants_1.getSubscribedTenantNames(saasCredentials);
+        const consumerNames = await (0, consumerTenants_1.getSubscribedTenantNames)(saasCredentials);
         consumer = (await inquirer_1.default.prompt([
             {
                 type: 'list',
@@ -41,7 +43,7 @@ async function debugenv(settings) {
             },
         ])).consumer;
     }
-    const { defaultServices, defaultEnv } = convertDefaultServicesJson(template, consumer);
+    const { defaultServices, defaultEnv } = convertDefaultServicesJson(template, consumer, isSaas);
     // write file to destination
     console.log(`-------------- Writing files to debug on tenant ${consumer} --------------`);
     for (let destDir of settings.destination) {
@@ -63,10 +65,9 @@ async function debugenv(settings) {
         });
     }
 }
-exports.default = debugenv;
-function convertDefaultServicesJson(template, consumer) {
+function convertDefaultServicesJson(template, consumer, isSaas) {
     template.VCAP_SERVICES.uaa = [].concat(template.VCAP_SERVICES.xsuaa);
-    if (template?.VCAP_SERVICES?.xsuaa) {
+    if (template?.VCAP_SERVICES?.xsuaa && isSaas) {
         template.VCAP_SERVICES.xsuaa.map((xsuaa) => {
             const newConsumer = consumer || xsuaa.credentials.identityzone;
             xsuaa.credentials.identityzone = newConsumer;

@@ -30,7 +30,7 @@ export default async function debugenv(settings: IDebugEnvSettings) {
     // set to JSON
     const template = JSON.parse(fileData);
     const saasCredentials = template.VCAP_SERVICES?.["saas-registry"]?.[0].credentials;
-
+    const isSaas = !!saasCredentials;
     let consumer = provider
     if (saasCredentials) {
         const consumerNames = await getSubscribedTenantNames(saasCredentials);
@@ -45,7 +45,7 @@ export default async function debugenv(settings: IDebugEnvSettings) {
         ])).consumer;
     }
 
-    const { defaultServices, defaultEnv } = convertDefaultServicesJson(template, consumer)
+    const { defaultServices, defaultEnv } = convertDefaultServicesJson(template, consumer, isSaas)
 
     // write file to destination
     console.log(`-------------- Writing files to debug on tenant ${consumer} --------------`);
@@ -68,11 +68,11 @@ export default async function debugenv(settings: IDebugEnvSettings) {
 
 }
 
-function convertDefaultServicesJson(template: { VCAP_SERVICES: { [key: string]: any } }, consumer: string) {
+function convertDefaultServicesJson(template: { VCAP_SERVICES: { [key: string]: any } }, consumer: string, isSaas: boolean) {
 
     template.VCAP_SERVICES.uaa = [].concat(template.VCAP_SERVICES.xsuaa);
 
-    if (template?.VCAP_SERVICES?.xsuaa) {
+    if (template?.VCAP_SERVICES?.xsuaa && isSaas) {
         template.VCAP_SERVICES.xsuaa.map(
             (xsuaa: any) => {
                 const newConsumer = consumer || xsuaa.credentials.identityzone;

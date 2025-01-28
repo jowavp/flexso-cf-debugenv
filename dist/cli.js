@@ -17,7 +17,7 @@ const optionDefinitions = [
 ];
 start();
 async function start() {
-    const options = command_line_args_1.default(optionDefinitions);
+    const options = (0, command_line_args_1.default)(optionDefinitions);
     if (options.init) {
         // if there is no settings.json file
         const filename = `${environmentDir}/settings.json`;
@@ -42,13 +42,13 @@ async function start() {
         }
         const appName = options.name || await inquirerName();
         // set the init options  
-        await init_1.init(appName, environmentDir);
+        await (0, init_1.init)(appName, environmentDir);
     }
     else {
         const settingsStr = fs_1.default.readFileSync(`${environmentDir}/settings.json`, 'utf8');
         const settings = JSON.parse(settingsStr);
         // Question developer to get the correct default-*.json files
-        await debugenv_1.default(settings);
+        await (0, debugenv_1.default)(settings);
     }
 }
 async function inquirerName() {
